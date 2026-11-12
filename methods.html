@@ -1,0 +1,569 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="邱奕叡的 Codex 工作報導"><title>Codex 使用經驗｜我的Codex工作報導</title>
+<style>:root {
+  color-scheme: light; --paper:#fff; --card:#fff; --ink:#222920;
+  --mute:#4c5855; --line:#d6e0dd; --green:#174944; --deep:#103733;
+  --soft:#eaf1ee; --rust:#815338; --dark:#192926; --nav:70px;
+  font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
+}
+* { box-sizing:border-box; }
+html { scroll-padding-top:calc(var(--nav) + 20px); }
+body { margin:0; background:var(--paper); color:var(--ink); line-height:1.68; }
+[hidden] { display:none !important; }
+img { display:block; max-width:100%; }
+a { color:inherit; text-underline-offset:4px; }
+button,input { font:inherit; }
+button { cursor:pointer; }
+:focus-visible { outline:3px solid #ae542d; outline-offset:4px; }
+h1,h2,h3,h4,p { margin:0; }
+h1,h2,h3,h4 { line-height:1.23; }
+.wrap { width:min(1240px, calc(100% - 84px)); margin-inline:auto; }
+.eyebrow { font-size:.76rem; font-weight:750; letter-spacing:.13em; color:var(--rust); }
+.muted { color:var(--mute); }
+.skip { position:fixed; top:6px; left:8px; z-index:10; transform:translateY(-160%); background:white; padding:8px 16px; }
+.skip:focus { transform:none; }
+.top { position:sticky; top:0; z-index:5; background:var(--paper); border-bottom:1px solid var(--line); }
+.top .wrap { min-height:var(--nav); display:flex; justify-content:space-between; align-items:center; gap:22px; }
+.brand { display:flex; align-items:center; gap:11px; font-weight:800; text-decoration:none; white-space:nowrap; }
+.mark { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--green); color:white; font-size:.9rem; }
+.top nav { display:flex; gap:clamp(14px,3vw,36px); font-size:.88rem; font-weight:690; }
+.top nav a { text-decoration:none; white-space:nowrap; }
+.top nav a[aria-current="page"] { color:var(--green); text-decoration:underline; text-underline-offset:6px; }
+.top nav a:hover,.brand:hover { color:var(--rust); }
+.review-label { border:1px solid var(--line); color:var(--mute); border-radius:20px; padding:3px 11px; font-size:.73rem; white-space:nowrap; }
+.hero { position:relative; isolation:isolate; overflow:hidden; background:#162b29; color:white; display:grid; align-items:center; min-height:clamp(490px,39vw,560px); }
+.hero-image { position:absolute; inset:0; z-index:-2; width:100%; height:100%; }
+.hero::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,#0b201fee 0%,#0b201fcc 32%,#0b201f60 68%,#0b201f12 100%); }
+.hero .wrap { padding-block:58px 86px; }
+.hero .eyebrow { color:#e7dac4; }
+.hero-author { display:flex; align-items:center; gap:14px; }
+.hero-portrait { width:68px; height:68px; border:2px solid #fff; border-radius:50%; object-fit:cover; flex:none; }
+.hero h1 { font-size:clamp(3rem,6.25vw,5.6rem); font-weight:850; letter-spacing:-.065em; line-height:1.07; margin-block:17px 20px; }
+.hero h1 span { display:block; }
+.hero .intro { max-width:23em; color:#f4f6f3; font-size:clamp(1rem,1.4vw,1.16rem); }
+.hero-credit { position:absolute; right:max(16px,calc((100% - 1240px)/2)); bottom:18px; max-width:calc(100% - 32px); padding:5px 10px; background:#102825e8; color:white; text-decoration:none; font-size:.76rem; }
+.hero-credit:hover { text-decoration:underline; }
+.actions { margin-top:26px; display:flex; gap:12px; flex-wrap:wrap; }
+.button { display:inline-flex; min-height:44px; gap:.7em; align-items:center; justify-content:center; border-radius:6px; padding:8px 17px; text-decoration:none; font-weight:750; border:1px solid var(--green); color:var(--green); background:transparent; }
+.button.primary,.button:hover { background:var(--green); color:white; }
+.button.primary:hover { background:var(--deep); }
+.hero .button { border-color:#f0f4f1; color:white; border-radius:2px; }
+.hero .button.primary,.hero .button:hover { background:#fff; color:var(--deep); }
+.hero .button.primary:hover { background:#eaf1ee; }
+.copy-preview { display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; max-width:32rem; margin-top:10px; }
+.copy-preview button { min-height:36px; padding:0; border:0; background:transparent; color:white; font-weight:700; font-size:.84rem; text-decoration:underline; text-underline-offset:4px; }
+.copy-preview span { color:#f4f6f3; font-size:.8rem; }
+.copy-preview input { flex-basis:100%; width:100%; max-width:23rem; border:1px solid var(--line); border-radius:3px; padding:6px 9px; }
+.numbers { border-bottom:1px solid var(--line); }
+.numbers .wrap { display:grid; grid-template-columns:repeat(4,1fr); }
+.number { padding:16px 15px 17px; border-left:1px solid var(--line); display:flex; align-items:baseline; gap:9px; }
+.number:first-child { border-left:0; padding-left:0; }
+.number strong { color:var(--green); font-size:clamp(1.7rem,3vw,2.6rem); line-height:1; font-variant-numeric:tabular-nums; }
+.number span { color:var(--mute); font-size:.84rem; }
+.section { padding-block:clamp(42px,6vw,75px); border-bottom:1px solid var(--line); }
+.heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(240px,.67fr); align-items:end; gap:22px; margin-bottom:25px; }
+.heading :is(h1,h2) { margin-top:6px; font-size:clamp(1.8rem,4vw,3.25rem); letter-spacing:-.04em; }
+.heading > p { color:var(--mute); font-size:.95rem; }
+.category-section { padding-block:clamp(32px,4.2vw,56px); }
+.home-path-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(18px,4vw,52px); }
+.home-path-grid section { border-top:2px solid var(--green); padding-top:15px; }
+.home-path-grid h2 { font-size:clamp(1.3rem,2.4vw,1.9rem); margin-bottom:7px; }
+.home-path-grid p { color:var(--mute); margin-bottom:6px; }
+.reading-document { max-width:52rem; margin-inline:auto; }
+.reading-document h1 { margin:18px 0; font-size:clamp(1.8rem,4vw,3rem); }
+.reading-document h2 { margin:30px 0 16px; }
+.reading-document > p { margin-bottom:18px; }
+@media(max-width:620px) { .home-path-grid { grid-template-columns:1fr; } }
+.category-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(12px,1.8vw,24px); }
+.category-entry { display:flex; flex-direction:column; gap:7px; border-top:2px solid var(--green); border-bottom:1px solid var(--line); padding:12px 0 15px; text-decoration:none; }
+.category-meta { display:flex; justify-content:space-between; align-items:baseline; gap:6px; color:var(--mute); font-size:.78rem; }
+.category-entry strong { min-height:2.75em; color:var(--green); font-size:clamp(.96rem,1.45vw,1.18rem); line-height:1.35; }
+.category-entry p { font-size:.86rem; color:var(--mute); }
+.category-link { margin-top:auto; padding-top:5px; color:var(--green); font-size:.8rem; font-weight:750; }
+.category-entry:hover .category-link { text-decoration:underline; }
+.showcase { margin-block:clamp(26px,4vw,54px); }
+.showcase-split { display:grid; grid-template-columns:minmax(0,2.35fr) minmax(220px,1fr); gap:clamp(20px,4vw,56px); align-items:center; }
+.showcase-lecture { grid-template-columns:minmax(0,1.3fr) minmax(220px,1fr); max-width:940px; }
+.showcase figure { margin:0; min-width:0; }
+.showcase figcaption { margin-top:9px; color:var(--mute); font-size:.83rem; }
+.showcase-bar { display:flex; align-items:center; gap:12px; padding:7px 12px; border:1px solid var(--line); border-bottom:0; border-radius:6px 6px 0 0; background:var(--soft); color:var(--deep); font-size:.77rem; font-weight:700; }
+.showcase-bar span { color:var(--green); font-size:.55rem; white-space:nowrap; }
+.showcase h2 { font-size:clamp(1.3rem,2.4vw,1.95rem); letter-spacing:-.025em; }
+.showcase-copy h2 { margin-block:7px 12px; }
+.showcase-copy > p:not(.eyebrow) { color:var(--mute); max-width:32em; }
+.showcase-copy .actions { margin-top:18px; gap:8px; }
+.showcase-copy .button { font-size:.86rem; }
+.workbench-author { display:flex; align-items:center; gap:10px; margin-top:20px; }
+.workbench-author img { border-radius:50%; }
+.workbench-author strong,.workbench-author small { display:block; }
+.workbench-author small { color:var(--mute); font-size:.76rem; }
+.showcase-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(16px,2.4vw,32px); margin-top:14px; }
+.showcase-card { display:grid; grid-template-rows:subgrid; grid-row:span 3; gap:10px; padding-block:12px 16px; border-block:1px solid var(--line); }
+.showcase-card h3 { margin-top:5px; font-size:clamp(1rem,1.7vw,1.28rem); }
+.showcase-card img { aspect-ratio:16/9; object-fit:cover; object-position:top; }
+.showcase-card > a { justify-self:start; align-self:end; color:var(--green); font-weight:750; font-size:.87rem; }
+.entry-grid { display:grid; grid-template-columns:1.35fr 1fr 1fr 1fr; border:1px solid var(--line); overflow:hidden; }
+.entry { min-height:125px; padding:16px; background:var(--card); border-right:1px solid var(--line); text-decoration:none; display:flex; flex-direction:column; gap:6px; }
+.entry:last-child { border-right:0; }
+.entry:hover { background:var(--soft); }
+.entry.primary-entry { background:var(--green); color:white; }
+.entry.primary-entry:hover { background:var(--deep); }
+.entry small { color:var(--mute); font-size:.8rem; }
+.entry.primary-entry small { color:#e2ebdf; }
+.entry-code { color:var(--rust); font-size:1.28rem; font-weight:800; font-variant-numeric:tabular-nums; }
+.primary-entry .entry-code { color:#dbedc8; }
+.entry strong { line-height:1.35; }
+.gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(14px,2.1vw,30px); }
+.tile { display:flex; flex-direction:column; border-bottom:1px solid var(--line); text-decoration:none; }
+.tile:hover { border-color:var(--green); }
+.tile:hover h2 { color:var(--green); text-decoration:underline; }
+.tile-image { width:100%; aspect-ratio:16/9; object-fit:cover; object-position:top left; background:var(--soft); }
+.case-flow-preview { width:100%; padding:clamp(16px, 4vw, 32px); display:grid; gap:12px; align-content:center; background:var(--soft); color:var(--green); }
+.tile .case-flow-preview { aspect-ratio:16/9; }
+.case-flow-preview ol { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:0; padding:0; list-style:none; }
+.case-flow-preview li { border-left:2px solid var(--green); background:white; padding:6px 8px; font-size:.86rem; }
+.tile[href='case-A04.html'] .tile-image,.tile-image[src='media/a05-paper-application.png'],.tile[href='case-A09.html'] .tile-image { object-fit:contain; object-position:center; }
+@media(max-width:620px) { #featured .gallery { grid-template-columns:1fr; } }
+.tile[href='case-B10.html'] .tile-image { object-position:50% 30%; }
+.tile-body { padding:14px 0; display:flex; flex-direction:column; gap:8px; flex:1; }
+.tile h2 { font-size:1.14rem; }
+.tile p { color:var(--mute); font-size:.84rem; }
+.tile .read { color:var(--green); font-weight:750; font-size:.84rem; margin-top:auto; padding-top:6px; }
+.directory-shortcuts { margin:clamp(28px,4vw,44px) 0; }
+.directory-shortcuts h3 { margin-bottom:12px; font-size:1rem; color:var(--green); }
+.shortcut-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(13px,2.1vw,28px); }
+.directory-shortcut { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px 10px; padding:13px 0 14px; min-width:0; border-top:2px solid var(--green); border-bottom:1px solid var(--line); color:var(--green); text-decoration:none; }
+.directory-shortcut .eyebrow { grid-column:1/-1; }
+.directory-shortcut strong { line-height:1.4; }
+.shortcut-arrow { align-self:center; line-height:1; }
+.directory-shortcut:hover strong { text-decoration:underline; }
+.tools { padding:20px 0; display:grid; gap:14px; border-block:1px solid var(--line); }
+.search,.filter-line { display:grid; grid-template-columns:92px minmax(0,1fr); align-items:center; gap:12px; }
+.search label,.filter-line > span { color:var(--green); font-weight:760; white-space:nowrap; font-size:.91rem; }
+.search input { min-width:0; width:min(100%,650px); min-height:44px; padding:8px 12px; border:1px solid #9faeaa; border-radius:3px; color:var(--ink); background:white; }
+.filters { display:flex; flex-wrap:wrap; gap:7px; }
+.filter { border:1px solid var(--line); border-radius:3px; background:var(--paper); color:var(--ink); padding:5px 12px; font-size:.84rem; }
+.filter:hover { border-color:var(--green); }
+.filter[aria-pressed=true] { border-color:var(--green); background:var(--green); color:white; }
+.result { color:var(--mute); font-size:.85rem; margin-block:15px 0; }
+.index-group { margin-top:clamp(30px,5vw,55px); }
+.index-group h3 { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 13px; border-bottom:2px solid var(--green); padding:0 0 13px; font-size:clamp(1.25rem,2.2vw,1.68rem); letter-spacing:-.02em; }
+.index-group h3 span { color:var(--mute); font-weight:500; font-size:.8rem; }
+.index-columns,.index-row { display:grid; grid-template-columns:54px minmax(0,1.7fr) minmax(160px,.75fr); gap:clamp(9px,2vw,24px); align-items:start; border-bottom:1px solid var(--line); }
+.index-columns { padding:10px 0; color:var(--mute); font-size:.78rem; }
+.index-row { padding:clamp(13px,1.6vw,21px) 0; }
+.index-row:target { background:var(--soft); }
+.row-id { color:var(--rust); font-size:.82rem; font-weight:800; padding-top:2px; }
+.row-title { font-weight:780; line-height:1.4; }
+.row-title-link { color:var(--green); text-underline-offset:4px; }
+.row-title-link:hover { color:var(--rust); }
+.row-description,.row-stage { color:var(--mute); font-size:.86rem; }
+.row-description { margin-top:4px; }
+.row-meta { display:grid; justify-items:start; gap:6px; }
+.row-meta:has(figure) { display:flex; flex-wrap:wrap; align-items:flex-start; gap:6px 12px; }
+.row-meta:has(figure) .row-stage { flex:1 1 10em; }
+.row-meta figure { width:min(100%,7.5rem); margin:0; }
+.row-meta figcaption { margin-top:5px; color:var(--mute); font-size:.77rem; }
+.row-meta .figure-button span { right:4px; bottom:4px; font-size:.67rem; }
+.index-case-link { display:inline-flex; align-items:center; gap:5px; min-height:32px; color:var(--green); font-weight:780; font-size:.84rem; text-underline-offset:3px; }
+.index-case-link:hover { color:var(--rust); }
+.reading-actions { display:flex; flex-wrap:wrap; align-items:center; column-gap:12px; }
+.reading-download { display:inline-flex; align-items:center; min-height:32px; font-size:.81rem; color:var(--green); white-space:nowrap; }
+.reading-download:hover { color:var(--rust); }
+.back-index { margin-top:27px; color:var(--green); font-weight:750; }
+.campus-guide-intro { margin:12px 0; color:var(--mute); }
+.campus-guide-row .row-description { max-width:40rem; margin:6px 0 10px; font-size:.95rem; }
+.campus-guide-row .row-stage { margin-bottom:4px; }
+.campus-guide-visual { width:min(100%,17rem); }
+.campus-guide-visual figure { margin:0; }
+.campus-guide-visual img { display:block; width:100%; aspect-ratio:4/3; object-fit:contain; background:var(--soft); }
+.campus-guide-visual figcaption { margin-top:6px; color:var(--mute); font-size:.8rem; }
+.campus-excerpt dl { margin:0; padding:8px 12px; border:1px solid var(--line); background:var(--soft); }
+.campus-excerpt dl div { display:flex; flex-wrap:wrap; justify-content:space-between; gap:4px 10px; padding:6px 0; font-size:.8rem; }
+.campus-excerpt dl div + div { border-top:1px solid var(--line); }
+.campus-excerpt dd { margin:0; font-weight:750; color:var(--green); }
+.teaching-guide-intro { margin:12px 0; color:var(--mute); }
+.teaching-guide-row .row-description { margin:6px 0 0; font-size:.95rem; }
+.teaching-focus { display:grid; gap:8px; margin:12px 0 0; }
+.teaching-focus > div { display:grid; grid-template-columns:5em 1fr; gap:8px; }
+.teaching-focus dt,.teaching-excerpt figcaption { color:var(--green); font-weight:750; }
+.teaching-focus dd { margin:0; color:var(--mute); font-size:.88rem; }
+.teaching-guide-row .row-meta figure.teaching-excerpt { width:100%; max-width:19rem; margin-top:4px; padding:9px 12px; background:var(--soft); }
+.teaching-excerpt p { margin:4px 0 0; font-size:.86rem; }
+.teaching-snapshot { width:100%; max-width:19rem; }
+.row-meta .teaching-snapshot figure { width:100%; }
+.teaching-snapshot img { display:block; width:100%; aspect-ratio:16/10; object-fit:contain; background:var(--soft); }
+.laptop-readings { margin-top:14px; padding:12px 14px; border:1px solid var(--line); background:var(--soft); }
+.laptop-readings h5 { margin:0; font-size:.94rem; color:var(--green); }
+.laptop-readings h5 span { font-size:.8rem; font-weight:500; }
+.laptop-readings ul { list-style:none; padding:0; margin:8px 0; }
+.laptop-readings li { padding:8px 0; border-top:1px solid var(--line); }
+.laptop-readings li p { margin:3px 0; color:var(--mute); font-size:.86rem; }
+.laptop-readings li a { color:var(--green); font-weight:700; font-size:.85rem; }
+.laptop-readings li > .button { min-height:34px; margin:4px 10px 4px 0; font-size:.82rem; }
+.laptop-poster { width:min(100%,17rem); margin:6px 0; }
+.laptop-poster figure { margin:0; }
+.laptop-poster figcaption { color:var(--mute); font-size:.8rem; }
+.laptop-reader { width:min(1100px,calc(100% - 24px)); }
+.laptop-reader h2 { font-size:1.05rem; }
+.laptop-reader iframe { display:block; width:100%; height:72vh; border:0; background:#fff; }
+.lecture-deck > a { margin-top:6px; }
+.lecture-slides { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr)); gap:14px; margin:12px 0 0; padding:0; list-style:none; }
+.lecture-slides figure { margin:0; }
+.lecture-slides img { display:block; width:100%; aspect-ratio:16/9; object-fit:contain; background:var(--soft); }
+.lecture-slides figcaption { margin-top:4px; color:var(--mute); font-size:.8rem; }
+.empty { margin:18px 0; color:var(--mute); }
+.case-section { background:var(--paper); }
+.case-breadcrumb { display:flex; gap:10px; color:var(--mute); font-size:.88rem; }
+.case-breadcrumb + .case { margin-top:20px; }
+.case { margin-top:clamp(42px,8vw,100px); padding-top:clamp(28px,4vw,52px); border-top:1px solid var(--line); }
+.case-header { max-width:56rem; margin-bottom:clamp(20px,3.4vw,44px); padding-left:clamp(12px,2vw,23px); border-left:2px solid var(--green); }
+.case-header .eyebrow { margin-bottom:9px; }
+.case-header h1 { font-size:clamp(2rem,4.5vw,3.7rem); letter-spacing:-.045em; }
+.case-header .lead { margin-top:12px; font-size:clamp(.97rem,1.7vw,1.13rem); color:var(--mute); }
+.case h4 { margin-bottom:12px; font-size:1.13rem; }
+.case .evidence-main h4 { font-size:.77rem; }
+.case-evidence { display:grid; grid-template-columns:minmax(0,2.4fr) minmax(0,1fr); gap:clamp(18px,3vw,40px); padding-bottom:clamp(34px,5vw,60px); }
+.evidence-notes { display:flex; flex-direction:column; gap:19px; align-self:start; margin-top:26px; padding:14px 0 0 19px; border-top:1px solid var(--line); border-left:1px solid var(--line); }
+.evidence-intro p { font-size:.93rem; color:var(--mute); }
+.case-block { padding-block:clamp(24px,3.3vw,43px); border-top:1px solid var(--line); }
+.case-block:last-child { padding-bottom:0; }
+.case-band { display:grid; grid-template-columns:minmax(110px,175px) minmax(0,1fr); gap:clamp(12px,2.7vw,32px); }
+.case-band > h4 { color:var(--green); }
+.case-teaching-focus .teaching-focus { margin-top:0; gap:12px; }
+.case-teaching-focus .teaching-focus dd { font-size:inherit; }
+.case-materials { margin-bottom:22px; }
+.case-materials h5 { margin:0 0 9px; font-size:1rem; color:var(--green); }
+.case-materials ul { display:grid; gap:9px; margin:0; padding-left:1.2em; }
+.case-materials li p { color:var(--mute); font-size:.9rem; }
+.work-record .case-band > h2 { color:var(--green); font-size:1.13rem; }
+.work-record .flow { grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); }
+.work-record .record-status { margin-top:14px; color:var(--green); font-size:.95rem; }
+.record-status strong { margin-right:7px; }
+.work-record figure { margin:0 0 16px; }
+.work-record figure img { max-height:520px; }
+.work-record figcaption { margin-top:7px; color:var(--mute); font-size:.83rem; }
+.work-record .record-excerpt { margin:0; }
+.record-excerpt blockquote { margin:0; max-width:42rem; padding:4px 0 4px 16px; border-left:3px solid var(--green); }
+.record-excerpt blockquote p + p { margin-top:.85em; }
+.record-related { margin:12px 0 0; padding-left:1.25em; }
+.record-related a { color:var(--green); }
+.record-example { margin-top:16px; }
+.flow { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(11px,1.8vw,23px); }
+.flow li { border-top:2px solid var(--line); padding-top:12px; }
+.flow li small { display:block; color:var(--rust); font-weight:750; margin-bottom:6px; }
+.flow li strong { display:block; line-height:1.4; margin-bottom:4px; }
+.flow li p { font-size:.85rem; color:var(--mute); }
+.flow-source { margin-top:9px; padding:10px; background:var(--soft); }
+.flow-source-link { display:block; margin-bottom:4px; color:var(--green); font-size:.82rem; font-weight:750; }
+.technical-workflow { margin-top:34px; }
+.technical-workflow h2,.technical-stages h3,.technical-examples dt { color:var(--green); }
+.technical-workflow > p,.technical-stages header > p:last-child { margin-top:6px; color:var(--mute); }
+.technical-workflow .actions { margin-top:14px; }
+.technical-diagram { margin-top:18px; }
+.technical-diagram ol { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:22px; list-style:none; padding:0; margin:8px 0 0; }
+.technical-diagram li { position:relative; }
+.technical-diagram li:not(:last-child)::after { content:""; position:absolute; right:-15px; top:calc(50% - 4px); width:7px; height:7px; border-top:2px solid var(--green); border-right:2px solid var(--green); transform:rotate(45deg); }
+.technical-diagram button { display:flex; align-items:center; gap:10px; width:100%; height:100%; min-height:64px; padding:10px; border:1px solid var(--line); border-radius:7px; background:var(--soft); color:var(--green); text-align:left; font-weight:750; line-height:1.35; }
+.technical-diagram button:hover { border-color:var(--green); }
+.technical-diagram button[aria-pressed="true"] { background:var(--green); color:white; }
+.technical-map a { display:flex; align-items:center; gap:10px; height:100%; min-height:70px; padding:10px; border:1px solid var(--line); border-radius:7px; background:var(--soft); color:var(--green); text-decoration:none; }
+.technical-map a:hover,.technical-map a:focus-visible { border-color:var(--green); }
+.technical-map small { display:block; margin-top:3px; color:var(--mute); line-height:1.4; }
+.technical-docs { margin:20px 0; padding:14px; background:var(--soft); }
+.technical-docs h3 { margin-bottom:5px; color:var(--green); }
+.technical-docs p { font-size:.9rem; }
+.technical-docs .actions > [hidden] { display:none; }
+.technical-guide-reader { width:min(760px,calc(100% - 32px)); max-height:86vh; padding:0; border:1px solid var(--line); color:var(--ink); background:#fff; }
+.technical-guide-reader::backdrop { background:rgba(0,0,0,.45); }
+.technical-guide-reader header { position:sticky; top:0; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px; background:#fff; border-bottom:1px solid var(--line); }
+.technical-guide-reader pre { margin:0; padding:18px; font:inherit; white-space:pre-wrap; overflow-wrap:anywhere; }
+.technical-source-links { display:flex; flex-wrap:wrap; gap:6px 18px; list-style:none; margin:12px 0 0; padding:0; font-size:.86rem; }
+.technical-step-number { display:grid; place-items:center; flex:0 0 28px; height:28px; border:1px solid currentColor; border-radius:50%; font-size:.75rem; }
+.technical-stages { list-style:none; padding:0; margin:24px 0; }
+.technical-stages > li { padding:18px 0; border-top:1px solid var(--line); }
+.technical-stages h3 { margin-top:4px; font-size:1.13rem; }
+.technical-examples { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:12px 0 0; }
+.technical-examples > div { padding:10px 13px; background:var(--soft); }
+.technical-examples dt { font-weight:750; }
+.technical-examples dd { margin:4px 0 0; font-size:.88rem; }
+.report-chain { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; list-style:none; padding:0; margin:13px 0 0; }
+.report-chain > li { position:relative; padding:12px 14px; border:1px solid var(--line); background:var(--soft); }
+.report-chain > li:not(:last-child)::after { content:""; position:absolute; right:-16px; top:calc(50% - 4px); width:7px; height:7px; border-top:2px solid var(--green); border-right:2px solid var(--green); transform:rotate(45deg); }
+.report-chain h3 { margin:4px 0 7px; font-size:1rem; color:var(--green); }
+.report-chain ul { margin:0; padding-left:1.15rem; }
+.report-chain li p,.report-chain ul { font-size:.86rem; }
+.report-chain p + p { margin-top:6px; }
+.report-status,.report-efficiency { margin-top:8px; color:var(--mute); }
+.report-efficiency { padding:9px 12px; border-left:3px solid var(--green); font-size:.91rem; }
+.report-trace { margin-top:15px; border:1px solid var(--line); background:#fff; }
+.case-band > .report-trace { margin-top:0; }
+.report-trace summary { padding:11px 14px; color:var(--green); font-weight:750; cursor:pointer; }
+.report-trace summary:focus-visible { outline:2px solid var(--green); outline-offset:3px; }
+.trace-content { padding:14px; border-top:1px solid var(--line); }
+.trace-content h3 { margin:0 0 12px; font-size:1.03rem; }
+.trace-cards,.trace-outputs { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:10px; }
+.trace-cards > div,.trace-outputs > div { padding:10px 12px; background:var(--soft); overflow-wrap:anywhere; }
+.trace-cards h4,.trace-outputs dt { margin:0 0 5px; color:var(--green); font-size:.86rem; font-weight:750; }
+.trace-cards p,.trace-outputs dd,.trace-note { margin:0; font-size:.86rem; }
+.trace-cards p + p { margin-top:5px; }
+.trace-note { margin-top:12px; color:var(--mute); }
+.trace-outputs { margin:8px 0 0; }
+.trace-bar { display:grid; margin:0 0 12px; background:var(--soft); text-align:center; font-size:.82rem; }
+.trace-bar span { padding:5px; }
+.trace-bar span + span { background:var(--green); color:#fff; }
+@media(max-width:680px) {
+  .technical-examples { grid-template-columns:1fr; }
+  .technical-diagram ol { grid-template-columns:1fr; gap:16px; }
+  .technical-diagram li:not(:last-child)::after { top:auto; right:calc(50% - 4px); bottom:-11px; transform:rotate(135deg); }
+  .technical-diagram button { min-height:44px; }
+  .report-chain { grid-template-columns:1fr; gap:16px; }
+  .report-chain > li:not(:last-child)::after { top:auto; right:calc(50% - 4px); bottom:-12px; transform:rotate(135deg); }
+}
+.pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(16px,3vw,34px); }
+.pair > div { border-left:2px solid var(--line); padding-left:14px; }
+.pair b { color:var(--green); display:block; margin-bottom:4px; }
+.date,.footnote { color:var(--mute); font-size:.8rem; margin-top:7px; }
+.result-links { display:grid; gap:13px; }
+.result-links > div { max-width:100%; }
+.result-links .button { border-radius:2px; justify-content:flex-start; min-height:38px; text-align:left; font-size:.85rem; }
+.result-links p { color:var(--mute); margin-top:4px; font-size:.82rem; }
+.case-masthead { margin-bottom:clamp(20px,3vw,34px); }
+.visual-source-link { display:inline-block; margin:3px 0 7px; }
+.case-evidence figure,.case-masthead figure { margin:0; min-width:0; }
+.evidence-secondary { margin-top:3px; }
+.figure-button { display:block; width:100%; padding:0; border:1px solid var(--line); background:#f5f7f6; overflow:hidden; position:relative; }
+.figure-button img { width:100%; height:auto; object-fit:contain; margin-inline:auto; }
+.evidence-main img { max-height:570px; }
+.evidence-secondary img { max-height:250px; }
+.figure-button span { position:absolute; right:9px; bottom:9px; background:var(--dark); color:white; font-size:.76rem; border-radius:4px; padding:2px 7px; }
+.case-evidence figcaption,.case-masthead figcaption { color:var(--mute); font-size:.83rem; margin:9px 0 0; }
+.case-evidence.case-evidence--sequence { grid-template-columns:1fr; gap:20px; }
+.case-evidence--sequence .evidence-notes { margin-top:0; padding-left:0; border-left:0; }
+.evidence-sequence { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(14px,2.2vw,28px); }
+.evidence-pair { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:16px; }
+.evidence-step { margin:0 0 9px; color:var(--green); font-size:1rem; }
+.evidence-step span { margin-right:6px; color:var(--rust); font-size:.8em; }
+.record-evidence h2 { color:var(--green); font-size:1.13rem; }
+.record-evidence h2 + p { margin-top:5px; color:var(--mute); }
+.evidence-sequence .figure-button img { aspect-ratio:16 / 9; }
+.evidence-sequence .figure-button span { position:static; display:table; margin:0 8px 8px auto; }
+.evidence-sequence:has(img[data-top-half]) .figure-button img { aspect-ratio:4 / 3; }
+.evidence-sequence .figure-button img[data-top-half] { object-fit:cover; object-position:top; }
+.voice-handoff header h2 { margin-top:5px; color:var(--green); font-size:clamp(1.3rem,2.6vw,1.9rem); }
+.voice-handoff header p:last-child { margin-top:7px; color:var(--mute); font-size:.9rem; }
+.voice-stages { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(12px,2vw,25px); list-style:none; margin:22px 0 0; padding:0; }
+.voice-stages > li { min-width:0; padding:clamp(13px,2vw,22px); border:1px solid var(--line); }
+.voice-stages h3 { margin:5px 0 14px; color:var(--green); font-size:1.12rem; }
+.voice-bubble { padding:11px 13px; border-radius:8px; background:var(--soft); }
+.voice-bubble p,.voice-fields,.voice-results,.voice-command { font-size:.88rem; }
+.voice-wave { display:flex; align-items:center; gap:4px; height:25px; margin-bottom:6px; color:var(--green); }
+.voice-wave i { display:block; width:3px; height:6px; border-radius:2px; background:currentColor; }
+.voice-wave i:nth-child(2n) { height:13px; }
+.voice-wave i:nth-child(3n) { height:20px; }
+.voice-wave i:nth-child(5) { height:25px; }
+.voice-note { margin-top:10px; color:var(--mute); font-size:.82rem; }
+.voice-fields,.voice-results { margin:0; padding:0; list-style:none; }
+.voice-fields div,.voice-results li { display:grid; grid-template-columns:4.15em minmax(0,1fr); gap:7px; padding:7px 0; border-bottom:1px solid var(--line); }
+.voice-fields dt,.voice-results span { color:var(--green); font-weight:750; }
+.voice-fields dd { margin:0; }
+.voice-command { margin-top:10px; }
+.voice-command summary { color:var(--green); font-weight:750; cursor:pointer; }
+.voice-command p { margin-top:7px; color:var(--mute); }
+@media(max-width:680px) {
+  .evidence-sequence,.voice-stages { grid-template-columns:1fr; gap:15px; }
+}
+.timing-summary { display:flex; flex-wrap:wrap; align-items:center; gap:10px clamp(14px,3vw,36px); }
+.duration { display:block; color:var(--green); font-size:clamp(1.4rem,3.1vw,2.2rem); line-height:1.2; font-variant-numeric:tabular-nums; }
+.time-scope { font-size:.96rem; font-weight:750; }
+.work-time > p { margin-top:13px; }
+.timing-breakdown { margin-top:13px; font-size:.86rem; }
+.timing-breakdown summary { cursor:pointer; color:var(--green); font-weight:750; }
+.timing-breakdown ul { list-style:none; margin:8px 0 0; padding:0; max-width:38rem; }
+.timing-breakdown li { display:flex; justify-content:space-between; gap:8px; padding:5px 0; border-bottom:1px solid var(--line); }
+.timing-breakdown li span:last-child { white-space:nowrap; font-variant-numeric:tabular-nums; }
+.proposal { padding:clamp(16px,3vw,31px); border-left:2px solid var(--green); background:var(--soft); }
+.proposal h4 { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
+.badge { font-size:.72rem; font-weight:750; border:1px solid #879d8c; border-radius:20px; padding:3px 8px; color:var(--green); }
+.proposal dl { margin:0; }
+.proposal dt { color:var(--green); font-weight:800; margin-top:8px; }
+.proposal dd { margin:0; }
+.case-footer { display:flex; gap:10px; flex-wrap:wrap; align-items:baseline; justify-content:space-between; }
+.case-footer a { color:var(--green); font-weight:700; font-size:.84rem; }
+.methods { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.methods li { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:12px; }
+.methods li span { color:var(--rust); font-weight:750; font-size:.79rem; margin-right:6px; }
+.methods p { color:var(--mute); font-size:.87rem; }
+.experience-heading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px 20px; margin-bottom:14px; }
+.experience-heading a,.experience-index a,.experience-evidence a,.experience-group li>a { color:var(--green); }
+.experience-overview { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr)); gap:12px 22px; }
+.experience-overview .category-entry strong { min-height:0; }
+.experience-intro { max-width:64ch; color:var(--mute); margin-bottom:20px; }
+.experience-index { display:flex; flex-wrap:wrap; gap:8px 16px; margin-bottom:24px; }
+.experience-highlight { background:var(--soft); border-left:3px solid var(--green); padding:18px 22px; margin-bottom:30px; }
+.experience-highlight ol { margin:12px 0; padding-left:1.35em; }
+.experience-highlight code { overflow-wrap:anywhere; }
+.experience-group { margin-top:32px; padding-top:19px; border-top:1px solid var(--line); }
+.experience-group>p { color:var(--mute); margin:6px 0 14px; }
+.experience-group .methods h3 { font-size:1.04rem; margin:4px 0 7px; }
+.experience-evidence,.experience-group li>a { margin-top:8px; }
+.experience-group li>a { display:inline-block; font-size:.84rem; }
+.methods .experience-status { color:var(--rust); font-weight:750; }
+.learning-roadmap { margin:20px 0 28px; }
+.learning-roadmap figcaption { font-weight:750; margin-bottom:10px; }
+.learning-roadmap ol { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; margin:0; padding:0; list-style:none; }
+.learning-roadmap li { position:relative; display:flex; }
+.learning-roadmap li:not(:last-child)::after { content:'→'; position:absolute; top:50%; right:-18px; transform:translateY(-50%); color:var(--green); }
+.learning-roadmap a { display:flex; flex:1; flex-direction:column; justify-content:center; gap:6px; padding:14px; background:var(--soft); border:1px solid var(--line); color:var(--green); text-decoration:none; }
+.learning-roadmap li:first-child a { background:var(--green); border-color:var(--green); color:#fff; }
+.learning-roadmap a:hover strong { text-decoration:underline; }
+.learning-roadmap a span { font-size:.79rem; }
+.learning-roadmap a strong { line-height:1.4; }
+.learning-stage { margin:24px 0 0; }
+.learning-stage h3 { margin:0 0 6px; }
+.learning-stage p { color:var(--mute); margin:0 0 12px; }
+.learning-table { width:100%; table-layout:fixed; border-collapse:collapse; font-size:.91rem; }
+.learning-table th,.learning-table td { padding:9px 11px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; overflow-wrap:anywhere; }
+.learning-table thead th { background:var(--soft); color:var(--green); }
+.learning-table tr > :first-child { width:3.9rem; text-align:center; }
+.learning-table thead th:nth-child(2) { width:36%; }
+.learning-table tbody tr:nth-child(even) { background:#f7faf8; }
+.learning-table tbody th span { display:block; color:var(--mute); font-size:.76rem; font-weight:400; }
+.learning-table tbody th a { color:var(--green); }
+@media(max-width:860px) {
+  .learning-roadmap ol { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .learning-roadmap li:not(:last-child)::after { content:none; }
+}
+@media(max-width:470px) {
+  .learning-roadmap ol { grid-template-columns:1fr; }
+  .learning-table th,.learning-table td { padding:7px 6px; }
+  .learning-table tr > :first-child { width:2.3rem; }
+}
+@media print {
+  .learning-roadmap a,.learning-roadmap li:first-child a { background:#fff; color:#111; border-color:#aaa; }
+  .learning-table thead { display:table-header-group; }
+  .learning-table tr { break-inside:avoid; }
+}
+.method-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; font-size:.79rem; color:var(--green); }
+.site-footer { background:var(--dark); color:#f2f4ea; padding:23px 0; }
+.site-footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.site-footer p { color:#d9e0d4; font-size:.82rem; }
+dialog { width:min(1150px,calc(100vw - 24px)); max-height:calc(100dvh - 30px); border:0; border-radius:8px; padding:12px; background:var(--card); color:var(--ink); }
+dialog::backdrop { background:#101810dd; }
+dialog header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
+dialog button { color:var(--green); background:var(--soft); border:1px solid var(--line); border-radius:4px; padding:4px 12px; }
+dialog img { max-height:calc(100dvh - 150px); max-width:100%; width:auto; margin:auto; object-fit:contain; }
+dialog.scrollable-image .image-viewer-body { max-height:calc(100dvh - 150px); overflow:auto; }
+dialog.scrollable-image img { width:100%; min-width:1000px; max-width:none; max-height:none; }
+@media(max-width:980px) {
+  .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .category-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .flow { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .case-evidence { grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); }
+}
+@media(max-width:680px) {
+  :root { --nav:86px; }
+  .wrap { width:calc(100% - 32px); }
+  .top .wrap { flex-wrap:wrap; justify-content:space-between; gap:3px 8px; padding-block:8px; }
+  .top nav { order:3; width:100%; justify-content:space-between; flex-wrap:wrap; gap:5px 8px; font-size:.83rem; }
+  .hero { min-height:465px; }
+  .hero .wrap { padding-block:45px 76px; }
+  .hero::after { background:linear-gradient(90deg,#0b201ff0,#0b201fb0 70%,#0b201f60); }
+  .hero h1 { font-size:clamp(2.45rem,12vw,4.6rem); }
+  .showcase-split,.showcase-grid { grid-template-columns:1fr; }
+  .showcase-card { grid-row:auto; grid-template-rows:auto; }
+  .heading { grid-template-columns:1fr; gap:9px; margin-bottom:16px; }
+  .category-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .numbers .wrap { grid-template-columns:repeat(2,1fr); }
+  .number:nth-child(3) { border-left:0; padding-left:0; }
+  .number:nth-child(n+3) { border-top:1px solid var(--line); }
+  .entry-grid { grid-template-columns:repeat(2,1fr); }
+  .entry:nth-child(2) { border-right:0; }
+  .entry:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+  .entry { min-height:105px; padding:12px; }
+  .shortcut-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .search,.filter-line { grid-template-columns:1fr; gap:6px; }
+  .filter,.index-case-link,.directory-shortcut { min-height:44px; }
+  .index-columns { display:none; }
+  .campus-guide-visual { grid-column:2; margin-top:6px; }
+  .index-row { grid-template-columns:35px minmax(0,1fr); gap:6px 8px; }
+  .row-meta { grid-column:2; }
+  .row-stage::before { content:"階段 · "; font-weight:750; color:var(--green); }
+  .pair,.case-evidence,.case-band,.methods { grid-template-columns:1fr; }
+  .evidence-notes { margin-top:0; padding-left:13px; }
+  .case-band > h4 { margin-bottom:3px; }
+}
+@media(max-width:380px) {
+  .gallery { grid-template-columns:1fr; }
+  .category-entry strong { min-height:0; }
+  .top nav { font-size:.77rem; }
+}
+@media print {
+  :root { --paper:white; --card:white; }
+  body { font-size:10pt; }
+  .wrap { width:100%; }
+  .top,.actions,.copy-preview,.tools,.result,.directory-shortcuts,.figure-button span,.site-footer a,.case-footer a,dialog { display:none!important; }
+  .hero { min-height:0; color:var(--ink); background:white; display:block; }
+  .hero-image,.hero::after,.hero-credit { display:none; }
+  .hero .wrap { padding:0 0 15px; }
+  .hero .eyebrow,.hero .intro { color:var(--ink); }
+  .hero h1 { font-size:26pt; }
+  .showcase { break-inside:avoid; }
+  .section { padding-block:15px; }
+  .index-group[hidden],.index-row[hidden] { display:grid!important; }
+  .technical-diagram { display:none; }
+  .technical-stages > li[hidden] { display:list-item!important; }
+  .tile,.index-row,.case-block,.entry-grid,.methods li { break-inside:avoid; }
+  .case { break-before:page; padding:12px; }
+  .evidence-main img,.evidence-secondary img { max-height:280px; }
+}
+
+.share-update{color:var(--mute);font-size:.8rem;white-space:nowrap}.case-band h2{font-size:1.03rem;color:var(--green)}.case-band .actions:empty{display:none}.technical-workflow>.report-trace{margin-top:12px}.entry strong,.entry span{display:block}
+@media(max-width:720px){.top .wrap{flex-wrap:wrap;gap:8px;padding-block:10px}.top nav{order:3;width:100%;flex-wrap:wrap}.share-update{margin-left:auto}}
+</style></head><body id="top"><a class="skip" href="#main">跳至主要內容</a>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><span class="mark" aria-hidden="true">邱</span>我的Codex工作報導</a><nav aria-label="網站導覽"><a href="index.html">首頁</a><a href="index.html#categories">五類業務方向</a><a href="cases.html">示範案</a><a href="directory.html">完整目錄</a><a href="methods.html" aria-current="page">使用經驗</a></nav><time class="share-update" datetime="2026-11-12">2026.11.12 更新(68)</time></div></header>
+<main id="main"><section class="section" id="methods"><div class="wrap">
+    <header class="experience-heading"><h1>Codex 使用經驗</h1></header>
+    <p class="experience-intro">從本季實作整理出 6 類、24 項技能。帶新手時，可以先練交辦和查證，再試著產出成品、接合流程，最後練習驗收、交接與整理可重用的做法。</p>
+    <nav class="experience-index" aria-label="技能清單導覽"><a href="#experience-brief">交辦與分工</a><a href="#experience-data">取材、查證與整理</a><a href="#experience-outputs">製作文件、教材與網頁</a><a href="#experience-workflow">建立工作流程與自動化</a><a href="#experience-delivery">驗收、發布與接續</a><a href="#experience-skills">拆解既有做法與封裝技能</a><a href="#future-skills">Codex 未來技能</a><a href="#learning-path">新手工作指引</a></nav>
+    <aside class="experience-highlight" aria-labelledby="david-workbook-title">
+      <h2 id="david-workbook-title">David Lin 的網頁如何變成可重用的做法</h2>
+      <ol>
+        <li>盤點交接包裡的文件資料、圖片、網頁模板、建置與比對腳本。</li>
+        <li>在工作副本重建總冊，整合金工教室章節，逐章核對差異。</li>
+        <li>把空間需求整理與網頁建置寫成兩套 Codex 技能，以章節交接包銜接。</li>
+        <li>驗證章節包、網站和技能格式，再核對安裝副本。</li>
+      </ol>
+      <p>技能存檔 <code>school-space-inventory</code>、<code>workbook-web-publisher</code>。</p>
+    </aside>
+    <section class="experience-group" id="experience-brief"><h2>交辦與分工</h2><p>把工作目標、依據和完成條件說清楚。</p><ul class="methods"><li id="experience-skill-1"><h3>任務規格與驗收條件</h3><p>交辦時說明要做的成果、可以用的資料、由誰確認，以及什麼算完成。</p><p class="experience-evidence"><strong>實作</strong> 校外教學案件先分出填報、收件、課務核對與寄送。 <a href="case-A05.html">查看 A05 ↗</a></p></li><li id="experience-skill-7"><h3>語音與影像轉寫</h3><p>把課堂錄音、會議或影片口述轉成可核對的文字，保留仍須回聽的位置。</p><p class="experience-evidence"><strong>實作</strong> 全球中世紀的課堂轉寫支援章節編寫。搬遷影片的口述則轉為分室清冊。 <a href="case-C01.html">查看 C01 ↗</a></p></li><li id="experience-skill-18"><h3>分支開發與整合</h3><p>把可獨立的工作分開做，在整合前確認兩邊使用同一套欄位與驗收案例。</p><p class="experience-evidence"><strong>實作</strong> 教師填報工具與教學組收件介面各自建置，再整合測試。 <a href="case-A05.html">查看 A05 ↗</a></p></li><li id="experience-skill-5"><h3>跨對話工作盤點</h3><p>按專案合併多次迭代，記錄成果、決定、待辦與接手位置。</p><p class="experience-evidence"><strong>實作</strong> 日常工作回顧與教學組交接紀錄讓下次開工有可追查的起點。 <a href="work-A14.html">查看 A14 ↗</a></p></li></ul></section><section class="experience-group" id="experience-data"><h2>取材、查證與整理</h2><p>從多種來源取材，讓每個結果有據可查。</p><ul class="methods"><li id="experience-skill-2"><h3>連接器查找與來源定位</h3><p>從 Drive、Docs 或 Sheets 定位實際檔案、分頁與欄位，必要時核對原件的版本。</p><p class="experience-evidence"><strong>實作</strong> 鐘點費核算把實授、費率依據與月度表件連回各自來源。 <a href="case-A09.html">查看 A09 ↗</a></p></li><li id="experience-skill-9"><h3>試算表對帳與正規化</h3><p>對照欄位、課程代碼和分組規則，將缺資料、差異和已核對項目分開。</p><p class="experience-evidence"><strong>實作</strong> 課程代碼與開課資料完成雙向核對，跨年比較另處理重複登錄。 <a href="work-A06.html">查看 A06 ↗</a></p></li><li id="experience-skill-8"><h3>資料萃取與檔案歸檔</h3><p>從文件擷取嵌入圖片或從影片整理清冊，保留來源位置、檔名與核對紀錄。</p><p class="experience-evidence"><strong>實作</strong> 課程文稿的 39 張圖片按原圖說歸檔。 <a href="teaching-research.html#item-C06">查看 C06 ↗</a></p></li><li id="experience-skill-3"><h3>文獻查證與證據索引</h3><p>分開原始材料、備查連結和研究推論，記下頁碼、行號或待核對的時間碼。</p><p class="experience-evidence"><strong>實作</strong> 青少年課堂敘寫研究逐筆區分已用材料、原始來源及待核對項目。 <a href="case-C02.html">查看 C02 ↗</a></p></li></ul></section><section class="experience-group" id="experience-outputs"><h2>製作文件、教材與網頁</h2><p>依讀者和用途，把原始材料做成可用的成果。</p><ul class="methods"><li id="experience-skill-12"><h3>同源多格式輸出</h3><p>從同一份內容製作可編修稿、簡報、PDF 或網頁，分開保存編修版與閱讀版。</p><p class="experience-evidence"><strong>實作</strong> 家長講座交付現場簡報、講者備忘與可續作檔。 <a href="waldorf-families.html#item-D01">查看 D01 ↗</a></p></li><li id="experience-skill-10"><h3>依範本製表與輸出 PDF</h3><p>沿用既有欄位、順序與版面，輸出後核對內容、頁數和閱讀效果。</p><p class="experience-evidence"><strong>實作</strong> 鐘點費以同一份細算資料產出不同用途的月度表件。 <a href="case-A09.html">查看 A09 ↗</a></p></li><li id="experience-skill-11"><h3>圖面、圖表與視覺說明</h3><p>把空間、尺寸、設備需求或概念關係轉成可討論的視覺材料，標出假設與待確認事項。</p><p class="experience-evidence"><strong>實作</strong> 金工／鐵工教室用情境海報與設備表協助核對分區及動線。 <a href="case-B10.html">查看 B10 ↗</a></p></li><li id="experience-skill-13"><h3>靜態網站與離線 HTML</h3><p>設計章節、導覽與折疊內容，讓教材可在瀏覽器閱讀並保留離線版本。</p><p class="experience-evidence"><strong>實作</strong> 全球中世紀以講義、地圖和課堂材料建置章節網頁。 <a href="case-C01.html">查看 C01 ↗</a></p></li></ul></section><section class="experience-group" id="experience-workflow"><h2>建立工作流程與自動化</h2><p>讓常做的作業有固定入口、狀態與交接方式。</p><ul class="methods"><li id="experience-skill-16"><h3>工作台介面與狀態設計</h3><p>把逐筆核對、草稿、安排、送出與歸檔等階段寫成介面與可回查的紀錄。</p><p class="experience-evidence"><strong>實作</strong> 調代課工作台按課次保留安排與通知依據。 <a href="case-A04.html">查看 A04 ↗</a></p></li><li id="experience-skill-17"><h3>資料契約與介面接合</h3><p>定義兩端交換的欄位、必要資料與錯誤回報，讓表單與收件工具可以各自改版。</p><p class="experience-evidence"><strong>實作</strong> 校外教學填報和收件端以共同資料規格整合。 <a href="case-A05.html">查看 A05 ↗</a></p></li><li id="experience-skill-19"><h3>連接器串接與通知讀回</h3><p>串接資料查找、草稿、人工確認、寄送與讀回，分開記錄送出與閱讀狀態。</p><p class="experience-evidence"><strong>實作</strong> 課程異動通知保留核對依據與實際寄送紀錄。 <a href="case-A04.html">查看 A04 ↗</a></p></li><li id="experience-skill-20"><h3>排程與增量處理</h3><p>指定執行週期、時區、來源及查詢起點，分開處理沒有新資料和來源無法讀取。</p><p class="experience-evidence"><strong>實作</strong> 平日 Gmail 早晨簡報依時間範圍整理新增郵件。</p></li></ul></section><section class="experience-group" id="experience-delivery"><h2>驗收、發布與接續</h2><p>確認成果能用，並留下別人可以重建的版本。</p><ul class="methods"><li id="experience-skill-4"><h3>瀏覽器與成品驗收</h3><p>逐項檢查導覽、圖片、手機版面、列印和閱讀效果，必要時實際開啟輸出成品。</p><p class="experience-evidence"><strong>實作</strong> 全球中世紀教材以章節跳轉、圖片與公開頁讀回驗收。 <a href="case-C01.html">查看 C01 ↗</a></p></li><li id="experience-skill-14"><h3>Git 版本管理與公開發布</h3><p>用提交保存版本，核對遠端提交；發布後另從公開網址讀回。</p><p class="experience-evidence"><strong>實作</strong> 工作報導將完整審閱稿歸檔，對外版由 GitHub Pages 提供閱讀。</p></li><li id="experience-skill-15"><h3>跨裝置交接與完整性檢查</h3><p>將來源、成品、接續說明與檔案雜湊打包，解壓後核對能否閱讀或重建。</p><p class="experience-evidence"><strong>實作</strong> 《人學》講師材料交接包含離線 HTML、來源索引與接手說明。 <a href="waldorf-families.html#item-D02">查看 D02 ↗</a></p></li><li id="experience-skill-6"><h3>操作環境與錯誤排查</h3><p>先辨認檔案、連線、帳號或權限是哪一層出問題，再針對故障範圍處理。</p><p class="experience-evidence"><strong>實作</strong> 作品集曾把檔案預覽改為本機 HTTP，解決內嵌瀏覽器的開啟問題。</p></li></ul></section><section class="experience-group" id="experience-skills"><h2>拆解既有做法與封裝技能</h2><p>看懂別人的成品如何做出來，再把有效做法留下。</p><ul class="methods"><li id="experience-skill-21"><h3>既有網站與交接包拆解</h3><p>盤點文件快照、圖片、模板、建置腳本和驗證工具，找出各自的用途與相依關係。</p><p class="experience-evidence"><strong>實作</strong> 從 David Lin 的工作總冊網頁與交接包，辨識可重建的來源和流程。 <a href="case-B10.html">查看 B10 ↗</a></p></li><li id="experience-skill-22"><h3>既有版型重建與章節比對</h3><p>在工作副本沿用版型與建置方式，替換指定章節，再比對新版和基準版的章節差異。</p><p class="experience-evidence"><strong>實作</strong> 金工教室回填工作總冊時，以章節比對確認指定範圍及受保護內容。 <a href="case-B10.html">查看 B10 ↗</a></p></li><li id="experience-skill-23"><h3>章節交接規格</h3><p>定義交接包要有正文、來源、圖片、變更紀錄與確認狀態，讓內容整理能交給建站流程。</p><p class="experience-evidence"><strong>實作</strong> 校舍空間需求與工作總冊網站以共用章節包銜接。 <a href="case-B10.html">查看 B10 ↗</a></p></li><li id="experience-skill-24"><h3>Codex 技能編寫與驗證</h3><p>把已驗證的流程寫進 SKILL.md，搭配參考文件及驗證腳本，再以真實案例檢查能否重用。</p><p class="experience-evidence"><strong>實作</strong> 已建立並安裝 school-space-inventory 與 workbook-web-publisher，並以金工教室章節和工作總冊驗證。 <a href="case-B10.html">查看 B10 ↗</a></p></li></ul></section>
+    <section class="experience-group" id="future-skills"><h2>Codex 未來技能</h2>
+      <p>以下是依目前工作排出的學習順序。優先深化已有基礎的做法，再挑小型案例試用本次盤點尚無足夠使用紀錄的功能。</p>
+      <ul class="methods"><li><p class="experience-status">優先深化</p><h3>建立可比較的作業成效紀錄</h3><p>從一個常做的課務案件開始，記錄整體經過時間、人工覆核時間、修正次數及結果。已有個案的 Codex 作業時間可當起點。</p></li><li><p class="experience-status">優先深化</p><h3>把驗收做成可重跑的回歸測試</h3><p>已有章節比對及表單整合測試。挑一條常出錯的流程，保存正常、缺欄與重複匯入三種測試資料，讓每次改版都能重跑。</p></li><li><p class="experience-status">優先深化</p><h3>用 Pull Request 和持續整合審閱改版</h3><p>已有 Git 提交和公開讀回經驗。下一步可讓 GitHub 在提出變更時自動檢查，再把專案特有的審閱條件寫進 AGENTS.md。</p> <a href="https://developers.openai.com/blog/custom-code-review-rules-for-codex" target="_blank" rel="noopener noreferrer">OpenAI Docs ↗</a></li><li><p class="experience-status">可先試做</p><h3>用子代理做獨立覆核</h3><p>挑一份去識別的報表，讓子代理分別查來源、公式與版面，最後依證據核對彼此的發現。</p> <a href="https://learn.chatgpt.com/docs/agent-configuration/subagents" target="_blank" rel="noopener noreferrer">OpenAI Docs ↗</a></li><li><p class="experience-status">進階選修</p><h3>設計專案專用的唯讀 MCP 工具</h3><p>已有連接器使用經驗。若查詢工作台紀錄經常重複，可先用測試資料練習定義一個只讀工具，限制可查欄位並回傳來源。</p> <a href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli" target="_blank" rel="noopener noreferrer">OpenAI Docs ↗</a></li><li><p class="experience-status">進階選修</p><h3>在 Codex Cloud 執行背景工作</h3><p>已有本機與筆電的交接做法。可用公開教材網站試做雲端建置、檢查連結和回收差異。</p> <a href="https://learn.chatgpt.com/docs/cloud" target="_blank" rel="noopener noreferrer">OpenAI Docs ↗</a></li></ul>
+    </section>
+    <section class="experience-group learning-guide" id="learning-path" aria-labelledby="learning-path-title">
+    <h2 id="learning-path-title">新手從零開始的工作指引</h2>
+    <p>用這 24 項實作技能安排自己的第一件 Codex 工作。先練第 1–5 項，第 6–24 項按眼前的任務選學。點技能名稱可回看實作案例。</p>
+    <figure class="learning-roadmap"><figcaption>四階段學習路線</figcaption><ol><li><a href="#learning-first-task"><span>先學 · 1–5</span><strong>第一次開工</strong></a></li><li><a href="#learning-task-needs"><span>按任務選學 · 6–15</span><strong>遇到材料、成品或交接需求</strong></a></li><li><a href="#learning-repeat-work"><span>有穩定流程再學 · 16–20</span><strong>工作反覆做或需要串接工具</strong></a></li><li><a href="#learning-reuse"><span>需要重建或重用時學 · 21–24</span><strong>接手既有成果或保存做法</strong></a></li></ol></figure>
+    <section class="learning-stage" id="learning-first-task"><h3 id="learning-title-first-task">第一次開工</h3><p>拿一份手邊的資料完成一件小事。交代目標，找出依據，打開成品核對，再記下下次從哪裡接手。</p>
+      <table class="learning-table" aria-labelledby="learning-title-first-task"><thead><tr><th scope="col">順序</th><th scope="col">工作項別</th><th scope="col">工作指引</th></tr></thead><tbody><tr><td>1</td><th scope="row"><span>交辦</span><a href="#experience-skill-1">任務規格與驗收條件</a></th><td>說清楚要做什麼、可用哪些資料，以及怎麼判斷完成。</td></tr><tr><td>2</td><th scope="row"><span>找資料</span><a href="#experience-skill-2">連接器查找與來源定位</a></th><td>先指出原檔、版本和要看的位置。資料在雲端時，再用連接器查找。</td></tr><tr><td>3</td><th scope="row"><span>查證</span><a href="#experience-skill-3">文獻查證與證據索引</a></th><td>標明依據與待查事項。做研究案時，再細記頁碼、行號或時間碼。</td></tr><tr><td>4</td><th scope="row"><span>驗收</span><a href="#experience-skill-4">瀏覽器與成品驗收</a></th><td>自己打開交付檔，對照原先要求，確認內容和操作都能用。</td></tr><tr><td>5</td><th scope="row"><span>收工交接</span><a href="#experience-skill-5">跨對話工作盤點</a></th><td>先記下完成項、待辦和檔案位置。做過幾輪後，再合併不同對話的進度。</td></tr></tbody></table>
+    </section><section class="learning-stage" id="learning-task-needs"><h3 id="learning-title-task-needs">遇到材料、成品或交接需求</h3><p>先看手上的材料和需要交付的格式，再挑對應做法。遇到檔案或環境問題，可以直接跳到第 6 項。</p>
+      <table class="learning-table" aria-labelledby="learning-title-task-needs"><thead><tr><th scope="col">順序</th><th scope="col">工作項別</th><th scope="col">工作指引</th></tr></thead><tbody><tr><td>6</td><th scope="row"><span>排查問題</span><a href="#experience-skill-6">操作環境與錯誤排查</a></th><td>檔案打不開、帳號不對或連線失敗時，先辨認問題出在哪一層。</td></tr><tr><td>7</td><th scope="row"><span>錄音與影片</span><a href="#experience-skill-7">語音與影像轉寫</a></th><td>要處理錄音、會議或影片口述時，練轉寫、回聽與標記不確定處。</td></tr><tr><td>8</td><th scope="row"><span>取圖與清冊</span><a href="#experience-skill-8">資料萃取與檔案歸檔</a></th><td>從文件取圖或從影片整理清冊時，保留原檔、檔名和出處。</td></tr><tr><td>9</td><th scope="row"><span>試算表</span><a href="#experience-skill-9">試算表對帳與正規化</a></th><td>比對兩份表時，先統一欄位與計數規則，再查缺漏和差異。</td></tr><tr><td>10</td><th scope="row"><span>表件與 PDF</span><a href="#experience-skill-10">依範本製表與輸出 PDF</a></th><td>有固定表格或簽核版式時，沿用範本並打開成品核對。</td></tr><tr><td>11</td><th scope="row"><span>視覺說明</span><a href="#experience-skill-11">圖面、圖表與視覺說明</a></th><td>需要說清楚空間、數據或概念關係時，用圖呈現並標出待確認處。</td></tr><tr><td>12</td><th scope="row"><span>多格式交付</span><a href="#experience-skill-12">同源多格式輸出</a></th><td>同一內容要做成講稿、簡報、PDF 或網頁時，先選定共同來源，再輸出各版本。</td></tr><tr><td>13</td><th scope="row"><span>網頁</span><a href="#experience-skill-13">靜態網站與離線 HTML</a></th><td>成果要用瀏覽器閱讀時，練章節、導覽、圖片和離線開啟。</td></tr><tr><td>14</td><th scope="row"><span>存檔與發布</span><a href="#experience-skill-14">Git 版本管理與公開發布</a></th><td>反覆改版時先學 Git 存檔。有對外分享需求時，再練發布與讀回驗證。</td></tr><tr><td>15</td><th scope="row"><span>換機與交接</span><a href="#experience-skill-15">跨裝置交接與完整性檢查</a></th><td>把來源、成品與接續說明一起交付，在另一台電腦確認能否開啟或重建。</td></tr></tbody></table>
+    </section><section class="learning-stage" id="learning-repeat-work"><h3 id="learning-title-repeat-work">工作反覆做或需要串接工具</h3><p>先把一件實案從頭做到尾。找出反覆出現的狀態和交接點，再決定要做工作台、串接工具或排程。</p>
+      <table class="learning-table" aria-labelledby="learning-title-repeat-work"><thead><tr><th scope="col">順序</th><th scope="col">工作項別</th><th scope="col">工作指引</th></tr></thead><tbody><tr><td>16</td><th scope="row"><span>案件追蹤</span><a href="#experience-skill-16">工作台介面與狀態設計</a></th><td>需要逐筆追蹤案件時，先定義草稿、核對、送出和歸檔等狀態。</td></tr><tr><td>17</td><th scope="row"><span>資料交換</span><a href="#experience-skill-17">資料契約與介面接合</a></th><td>兩個工具要交換資料時，先約定欄位、必填資料和出錯時怎麼回報。</td></tr><tr><td>18</td><th scope="row"><span>分工開發</span><a href="#experience-skill-18">分支開發與整合</a></th><td>欄位和驗收方式約定好後，把可獨立的部分分開製作，最後整合測試。</td></tr><tr><td>19</td><th scope="row"><span>通知流程</span><a href="#experience-skill-19">連接器串接與通知讀回</a></th><td>查資料、擬稿和寄送時，逐步核對，由人確認後寄送，再讀回寄送結果。</td></tr><tr><td>20</td><th scope="row"><span>定期作業</span><a href="#experience-skill-20">排程與增量處理</a></th><td>手動做法已可穩定驗收後，再設定何時執行、從哪裡接著讀新資料。</td></tr></tbody></table>
+    </section><section class="learning-stage" id="learning-reuse"><h3 id="learning-title-reuse">接手既有成果或保存做法</h3><p>接到既有成品時，先盤點來源、做出可重建的副本並驗收。想讓同一做法用於下個案件時，再定交接規格和技能。</p>
+      <table class="learning-table" aria-labelledby="learning-title-reuse"><thead><tr><th scope="col">順序</th><th scope="col">工作項別</th><th scope="col">工作指引</th></tr></thead><tbody><tr><td>21</td><th scope="row"><span>盤點與拆解</span><a href="#experience-skill-21">既有網站與交接包拆解</a></th><td>像 David Lin 的案例，先找出原始資料、圖片、模板、建置和比對工具。</td></tr><tr><td>22</td><th scope="row"><span>重建與比對</span><a href="#experience-skill-22">既有版型重建與章節比對</a></th><td>在工作副本重建，修改指定章節後，核對哪些內容有變。</td></tr><tr><td>23</td><th scope="row"><span>跨流程交接</span><a href="#experience-skill-23">章節交接規格</a></th><td>內容整理和網站建置分開接手時，約定正文、圖片、來源和確認狀態。</td></tr><tr><td>24</td><th scope="row"><span>技能封裝</span><a href="#experience-skill-24">Codex 技能編寫與驗證</a></th><td>做法能重複使用後，再寫成 SKILL.md，並用真實案例驗證能否照著做。</td></tr></tbody></table>
+    </section>
+  </section>
+  </div></section></main><footer class="site-footer"><div class="wrap"><div><strong>邱奕叡｜我的Codex工作報導</strong><p>2026.11.12 更新(68)</p></div><a href="index.html">回首頁 ↖</a></div></footer>
+<dialog id="image-viewer" aria-labelledby="viewer-title"><header><strong id="viewer-title">成果畫面</strong><form method="dialog"><button type="submit" autofocus>關閉</button></form></header><div class="image-viewer-body"><img alt=""></div></dialog><script>const viewer = document.querySelector('#image-viewer');
+document.addEventListener('click', event => {
+  const link = event.target.closest('[data-image]');
+  if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !viewer.showModal) return;
+  event.preventDefault();
+  const preview = link.querySelector('img');
+  viewer.querySelector('img').src = link.href;
+  viewer.querySelector('img').alt = preview.alt;
+  viewer.querySelector('strong').textContent = preview.alt;
+  viewer.showModal();
+});
+</script></body></html>
